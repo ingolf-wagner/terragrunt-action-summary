@@ -1,0 +1,21 @@
+HH:MM:SS.mmm INFO   The following units will be run, starting with dependencies and then their dependents:
+.
+╰── .
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.ok: Refreshing state... [id=ok-thing]
+HH:MM:SS.mmm STDOUT [.] tofu: OpenTofu used the selected providers to generate the following execution
+HH:MM:SS.mmm STDOUT [.] tofu: plan. Resource actions are indicated with the following symbols:
+HH:MM:SS.mmm STDOUT [.] tofu:   + create
+HH:MM:SS.mmm STDOUT [.] tofu: OpenTofu will perform the following actions:
+HH:MM:SS.mmm STDOUT [.] tofu:   # dummy_thing.fails will be created
+HH:MM:SS.mmm STDOUT [.] tofu:   + resource "dummy_thing" "fails" {
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail  = true
+HH:MM:SS.mmm STDOUT [.] tofu:       + id    = (known after apply)
+HH:MM:SS.mmm STDOUT [.] tofu:       + name  = "fail-thing"
+HH:MM:SS.mmm STDOUT [.] tofu:       + value = "default"
+HH:MM:SS.mmm STDOUT [.] tofu:     }
+HH:MM:SS.mmm STDOUT [.] tofu: Plan: 1 to add, 0 to change, 0 to destroy.
+
+❯❯ Run Summary  1 units  Nms
+   ────────────────────────────
+   Succeeded    1
+

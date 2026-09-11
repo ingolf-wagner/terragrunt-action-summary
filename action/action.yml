@@ -1,0 +1,10 @@
+name: "Tofu/Terraform Apply Summary"
+description: "Parse tofu/terragrunt apply output and emit a markdown summary to GITHUB_STEP_SUMMARY"
+inputs:
+  action_output:
+    description: "URL-encoded tg_action_output value from gruntwork-io/terragrunt-action steps.<id>.outputs.tg_action_output"
+    required: true
+
+runs:
+  using: "node20"
+  main: "index.js"

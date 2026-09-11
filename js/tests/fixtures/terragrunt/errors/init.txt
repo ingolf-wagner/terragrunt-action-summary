@@ -1,0 +1,29 @@
+HH:MM:SS.mmm INFO   The following units will be run, starting with dependencies and then their dependents:
+.
+╰── .
+HH:MM:SS.mmm INFO   [.] Downloading Terraform configurations from ../../tofu/errors into ./.terragrunt-cache/HASH/HASH
+HH:MM:SS.mmm STDOUT [.] tofu: Initializing the backend...
+HH:MM:SS.mmm STDOUT [.] tofu: Initializing provider plugins...
+HH:MM:SS.mmm STDOUT [.] tofu: - Finding latest version of dummy/dummy...
+HH:MM:SS.mmm STDOUT [.] tofu: - Installing dummy/dummy v1.0.0 to the shared cache directory...
+HH:MM:SS.mmm STDOUT [.] tofu: - Installed dummy/dummy v1.0.0 (unauthenticated)
+HH:MM:SS.mmm STDOUT [.] tofu: - Using dummy/dummy v1.0.0 from the shared cache directory
+HH:MM:SS.mmm STDOUT [.] tofu: OpenTofu has created a lock file .terraform.lock.hcl to record the provider
+HH:MM:SS.mmm STDOUT [.] tofu: selections it made above. Include this file in your version control repository
+HH:MM:SS.mmm STDOUT [.] tofu: so that OpenTofu can guarantee to make the same selections by default when
+HH:MM:SS.mmm STDOUT [.] tofu: you run "tofu init" in the future.
+HH:MM:SS.mmm STDOUT [.] tofu: Warning: Incomplete lock file information for providers
+HH:MM:SS.mmm STDOUT [.] tofu: Due to your customized provider installation methods, OpenTofu was forced to
+HH:MM:SS.mmm STDOUT [.] tofu: calculate lock file checksums locally for the following providers:
+HH:MM:SS.mmm STDOUT [.] tofu:   - dummy/dummy
+HH:MM:SS.mmm STDOUT [.] tofu: The current .terraform.lock.hcl file only includes checksums for linux_amd64,
+HH:MM:SS.mmm STDOUT [.] tofu: so OpenTofu running on another platform will fail to install these providers.
+HH:MM:SS.mmm STDOUT [.] tofu: To calculate additional checksums for another platform, run:
+HH:MM:SS.mmm STDOUT [.] tofu:   tofu providers lock -platform=linux_amd64
+HH:MM:SS.mmm STDOUT [.] tofu: (where linux_amd64 is the platform to generate)
+HH:MM:SS.mmm STDOUT [.] tofu: OpenTofu has been successfully initialized!
+
+❯❯ Run Summary  1 units  Nms
+   ────────────────────────────
+   Succeeded    1
+

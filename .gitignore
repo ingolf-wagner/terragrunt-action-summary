@@ -1,3 +1,11 @@
 !.envrc
 
 .terraform*
+*.tfstate*
+.terragrunt-cache/
+
+# node
+node_modules/
+
+# rust (removed, kept ignored in case of stale checkouts)
+/target

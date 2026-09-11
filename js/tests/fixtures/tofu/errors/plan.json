@@ -1,0 +1,140 @@
+{
+  "format_version": "1.2",
+  "terraform_version": "1.12.6",
+  "planned_values": {
+    "root_module": {
+      "resources": [
+        {
+          "address": "dummy_thing.fails",
+          "mode": "managed",
+          "type": "dummy_thing",
+          "name": "fails",
+          "provider_name": "registry.opentofu.org/dummy/dummy",
+          "schema_version": 0,
+          "values": { "fail": true, "name": "fail-thing", "value": "default" },
+          "sensitive_values": {}
+        },
+        {
+          "address": "dummy_thing.ok",
+          "mode": "managed",
+          "type": "dummy_thing",
+          "name": "ok",
+          "provider_name": "registry.opentofu.org/dummy/dummy",
+          "schema_version": 0,
+          "values": {
+            "fail": false,
+            "id": "ok-thing",
+            "name": "ok-thing",
+            "value": "works"
+          },
+          "sensitive_values": {}
+        }
+      ]
+    }
+  },
+  "resource_changes": [
+    {
+      "address": "dummy_thing.fails",
+      "mode": "managed",
+      "type": "dummy_thing",
+      "name": "fails",
+      "provider_name": "registry.opentofu.org/dummy/dummy",
+      "change": {
+        "actions": ["create"],
+        "before": null,
+        "after": { "fail": true, "name": "fail-thing", "value": "default" },
+        "after_unknown": { "id": true },
+        "before_sensitive": false,
+        "after_sensitive": {}
+      }
+    },
+    {
+      "address": "dummy_thing.ok",
+      "mode": "managed",
+      "type": "dummy_thing",
+      "name": "ok",
+      "provider_name": "registry.opentofu.org/dummy/dummy",
+      "change": {
+        "actions": ["no-op"],
+        "before": {
+          "fail": false,
+          "id": "ok-thing",
+          "name": "ok-thing",
+          "value": "works"
+        },
+        "after": {
+          "fail": false,
+          "id": "ok-thing",
+          "name": "ok-thing",
+          "value": "works"
+        },
+        "after_unknown": {},
+        "before_sensitive": {},
+        "after_sensitive": {}
+      }
+    }
+  ],
+  "prior_state": {
+    "format_version": "1.0",
+    "terraform_version": "1.12.6",
+    "values": {
+      "root_module": {
+        "resources": [
+          {
+            "address": "dummy_thing.ok",
+            "mode": "managed",
+            "type": "dummy_thing",
+            "name": "ok",
+            "provider_name": "registry.opentofu.org/dummy/dummy",
+            "schema_version": 0,
+            "values": {
+              "fail": false,
+              "id": "ok-thing",
+              "name": "ok-thing",
+              "value": "works"
+            },
+            "sensitive_values": {}
+          }
+        ]
+      }
+    }
+  },
+  "configuration": {
+    "provider_config": {
+      "dummy": {
+        "name": "dummy",
+        "full_name": "registry.opentofu.org/dummy/dummy"
+      }
+    },
+    "root_module": {
+      "resources": [
+        {
+          "address": "dummy_thing.fails",
+          "mode": "managed",
+          "type": "dummy_thing",
+          "name": "fails",
+          "provider_config_key": "dummy",
+          "expressions": {
+            "fail": { "constant_value": true },
+            "name": { "constant_value": "fail-thing" }
+          },
+          "schema_version": 0
+        },
+        {
+          "address": "dummy_thing.ok",
+          "mode": "managed",
+          "type": "dummy_thing",
+          "name": "ok",
+          "provider_config_key": "dummy",
+          "expressions": {
+            "name": { "constant_value": "ok-thing" },
+            "value": { "constant_value": "works" }
+          },
+          "schema_version": 0
+        }
+      ]
+    }
+  },
+  "timestamp": "redacted",
+  "errored": false
+}

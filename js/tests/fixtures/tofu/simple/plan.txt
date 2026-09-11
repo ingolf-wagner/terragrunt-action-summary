@@ -1,0 +1,9 @@
+data.dummy_value.lookup: Reading...
+dummy_thing.second: Refreshing state... [id=second-thing]
+dummy_thing.first: Refreshing state... [id=first-thing]
+data.dummy_value.lookup: Read complete after 0s [name=query-key]
+
+No changes. Your infrastructure matches the configuration.
+
+OpenTofu has compared your real infrastructure against your configuration and
+found no differences, so no changes are needed.

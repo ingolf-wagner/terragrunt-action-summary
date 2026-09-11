@@ -1,0 +1,53 @@
+name: Deploy
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+env:
+  tg_version: "1.1.3"
+  tofu_version: "1.12.6"
+  working_dir: "terragrunt/simple"
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Plan
+        uses: gruntwork-io/terragrunt-action@v3
+        id: plan
+        with:
+          tg_version: ${{ env.tg_version }}
+          tofu_version: ${{ env.tofu_version }}
+          tg_dir: ${{ env.working_dir }}
+          tg_command: "plan"
+
+  apply:
+    runs-on: ubuntu-latest
+    needs: [plan]
+    if: github.ref == 'refs/heads/main'
+    environment: "prod"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Apply
+        uses: gruntwork-io/terragrunt-action@v3
+        id: apply
+        with:
+          tg_version: ${{ env.tg_version }}
+          tofu_version: ${{ env.tofu_version }}
+          tg_dir: ${{ env.working_dir }}
+          tg_command: "apply"
+          # required for the summary step: makes terragrunt-action emit tg_action_output
+          tg_output_capture: "1"
+
+      - name: Tofu apply summary
+        if: always() && steps.apply.outputs.tg_action_output != ''
+        uses: ingolf-wagner/terragrunt-action-summary@v1
+        with:
+          action_output: ${{ steps.apply.outputs.tg_action_output }}

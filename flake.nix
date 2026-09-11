@@ -32,6 +32,7 @@
         module = {
           imports = [
             ./nix/ci/formatter.nix
+            ./nix/ci/checks.nix
           ];
         };
       };
@@ -56,13 +57,44 @@
           system,
           ...
         }:
+        let
+          dummy-provider = pkgs.callPackage ./nix/packages/dummy-provider.nix { };
+          dummy-provider-opentofu = pkgs.callPackage ./nix/packages/dummy-provider.nix {
+            providerAddress = "registry.opentofu.org/dummy/dummy";
+          };
+
+          create-tofu-inputs = pkgs.callPackage ./nix/packages/create-tofu-inputs.nix {
+            inherit (pkgs) opentofu;
+            dummy-provider = dummy-provider-opentofu;
+          };
+
+          create-terragrunt-inputs = pkgs.callPackage ./nix/packages/create-terragrunt-inputs.nix {
+            inherit (pkgs) opentofu terragrunt;
+            dummy-provider = dummy-provider-opentofu;
+          };
+        in
         {
           # Per-system attributes can be defined here. The self' and inputs'
-          # module parameters provide easy access to attributes of the same
-          # system.
+          packages = {
+            inherit dummy-provider dummy-provider-opentofu;
+            inherit create-tofu-inputs create-terragrunt-inputs;
+            tests = pkgs.writeShellApplication {
+              name = "js-tests";
+              runtimeInputs = [ pkgs.nodejs ];
+              text = ''
+                # Run from the repo root, like `nix run .#tests`.
+                cd js
 
-          # Equivalent to  inputs'.nixpkgs.legacyPackages.hello;
-          packages.default = pkgs.hello;
+                # The nix store can't hold node_modules; fetch it on demand.
+                if [ ! -d node_modules ]; then
+                  npm ci --no-fund --no-audit
+                fi
+
+                exec node node_modules/jest/bin/jest.js "$@"
+              '';
+            };
+            default = dummy-provider;
+          };
         };
       flake = {
         # The usual flake attributes can be defined here, including system-

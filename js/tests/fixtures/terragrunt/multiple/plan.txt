@@ -1,0 +1,23 @@
+HH:MM:SS.mmm INFO   The following units will be run, starting with dependencies and then their dependents:
+.
+╰── first
+    ╰── second
+HH:MM:SS.mmm STDOUT [first] tofu: data.dummy_value.lookup: Reading...
+HH:MM:SS.mmm STDOUT [first] tofu: dummy_thing.first: Refreshing state... [id=first-thing]
+HH:MM:SS.mmm STDOUT [first] tofu: dummy_thing.second: Refreshing state... [id=second-thing]
+HH:MM:SS.mmm STDOUT [first] tofu: data.dummy_value.lookup: Read complete after 0s [name=query-key]
+HH:MM:SS.mmm STDOUT [first] tofu: No changes. Your infrastructure matches the configuration.
+HH:MM:SS.mmm STDOUT [first] tofu: OpenTofu has compared your real infrastructure against your configuration and
+HH:MM:SS.mmm STDOUT [first] tofu: found no differences, so no changes are needed.
+HH:MM:SS.mmm STDOUT [second] tofu: data.dummy_value.lookup: Reading...
+HH:MM:SS.mmm STDOUT [second] tofu: dummy_thing.first: Refreshing state... [id=first-thing]
+HH:MM:SS.mmm STDOUT [second] tofu: dummy_thing.second: Refreshing state... [id=second-thing]
+HH:MM:SS.mmm STDOUT [second] tofu: data.dummy_value.lookup: Read complete after 0s [name=query-key]
+HH:MM:SS.mmm STDOUT [second] tofu: No changes. Your infrastructure matches the configuration.
+HH:MM:SS.mmm STDOUT [second] tofu: OpenTofu has compared your real infrastructure against your configuration and
+HH:MM:SS.mmm STDOUT [second] tofu: found no differences, so no changes are needed.
+
+❯❯ Run Summary  2 units  Nms
+   ────────────────────────────
+   Succeeded    2
+

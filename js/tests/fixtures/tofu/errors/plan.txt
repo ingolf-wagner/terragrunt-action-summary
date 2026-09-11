@@ -1,0 +1,17 @@
+dummy_thing.ok: Refreshing state... [id=ok-thing]
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+OpenTofu will perform the following actions:
+
+  # dummy_thing.fails will be created
+  + resource "dummy_thing" "fails" {
+      + fail  = true
+      + id    = (known after apply)
+      + name  = "fail-thing"
+      + value = "default"
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.

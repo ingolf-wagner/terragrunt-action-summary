@@ -1,0 +1,22 @@
+{
+  "name": "tofu-summarize",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Parse and render OpenTofu/Terragrunt apply output as Markdown summaries",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "jest"
+  },
+  "bin": {
+    "tofu-summarize": "dist/bin/tofu-summarize.js"
+  },
+  "devDependencies": {
+    "@jest/expect": "^30",
+    "@types/jest": "^30",
+    "@types/node": "^24",
+    "jest": "^30",
+    "ts-jest": "^29",
+    "typescript": "^5"
+  }
+}

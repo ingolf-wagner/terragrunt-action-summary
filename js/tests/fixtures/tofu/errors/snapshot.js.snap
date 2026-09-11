@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`apply 1`] = `## Tofu Summary ❌
+
+**Plan:** 2 to add, 0 to change, 0 to destroy.
+
+| resource | action | state | time |
+| --- | --- | --- | --- |
+| \`dummy_thing.fails\` | ✍️ | ⏳ |  |
+| \`dummy_thing.ok\` (id=ok-thing) | ✍️ | ✔ | 0s |
+`;
+
+exports[`plan 1`] = `## Tofu Summary ✅
+
+**Plan:** 1 to add, 0 to change, 0 to destroy.
+`;

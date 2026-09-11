@@ -1,0 +1,41 @@
+data.dummy_value.lookup: Reading...
+data.dummy_value.lookup: Read complete after 0s [name=query-key]
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+OpenTofu will perform the following actions:
+
+  # dummy_thing.first will be created
+  + resource "dummy_thing" "first" {
+      + fail  = false
+      + id    = (known after apply)
+      + name  = "first-thing"
+      + value = "alpha"
+    }
+
+  # dummy_thing.second will be created
+  + resource "dummy_thing" "second" {
+      + fail  = false
+      + id    = (known after apply)
+      + name  = "second-thing"
+      + value = "beta"
+    }
+
+Plan: 2 to add, 0 to change, 0 to destroy.
+
+Changes to Outputs:
+  + datalookup_value = "value-for-query-key"
+  + first_value      = "alpha"
+dummy_thing.first: Creating...
+dummy_thing.first: Creation complete after 0s [id=first-thing]
+dummy_thing.second: Creating...
+dummy_thing.second: Creation complete after 0s [id=second-thing]
+
+Apply complete! Resources: 2 added, 0 changed, 0 destroyed.
+
+Outputs:
+
+datalookup_value = "value-for-query-key"
+first_value = "alpha"

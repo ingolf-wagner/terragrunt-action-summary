@@ -1,0 +1,26 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`apply 1`] = `## Tofu Summary ✅
+
+**Resources:** 2 added, 0 changed, 0 destroyed.
+
+| resource | action | state | time |
+| --- | --- | --- | --- |
+| \`data.dummy_value.lookup\` | 🔍 | ✔ | 0s |
+| \`dummy_thing.first\` (id=first-thing) | ✍️ | ✔ | 0s |
+| \`dummy_thing.second\` (id=second-thing) | ✍️ | ✔ | 0s |
+
+**2 outputs:**
+
+- \`datalookup_value\` = \`"value-for-query-key"\`
+- \`first_value\` = \`"alpha"\`
+`;
+
+exports[`plan 1`] = `## Tofu Summary ✅
+
+**No changes.**
+
+| resource | action | state | time |
+| --- | --- | --- | --- |
+| \`data.dummy_value.lookup\` | 🔍 | ✔ | 0s |
+`;
