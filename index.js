@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 "use strict";
 
-const { decode, parse, render } = require("../js/dist/src/index");
+const { decode, parse, render } = require("./js/dist/src/index");
 
 const encoded = process.env.INPUT_ACTION_OUTPUT;
 if (!encoded) {

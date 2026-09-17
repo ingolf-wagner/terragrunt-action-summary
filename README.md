@@ -63,11 +63,16 @@ appends the Markdown summary to `$GITHUB_STEP_SUMMARY`. It never fails the
 workflow on unparseable output; guard the step with `if: always()` to get a
 summary even when the apply step fails — failures are rendered with an ❌ badge.
 
+The compiled parser (`js/dist/`) is committed so the published action is
+self-contained — `uses: ingolf-wagner/terragrunt-action-summary@v1` requires
+`action.yml` at the repo root and no build step at consume time. After
+changing `js/src`, rebuild with `cd js && npm run build` and commit `js/dist/`.
+
 ## Development
 
 ```
 js/       parser, renderer, tests (jest) — npm test inside js/
-action/   the JavaScript (node20) action entrypoint (wraps js/src)
+index.js, action.yml   the node20 action entrypoint at the repo root
 nix/      devshell + fixture generation with a local dummy provider
 terragrunt/, tofu/   fixture source stacks consumed by the integration tests
 ```

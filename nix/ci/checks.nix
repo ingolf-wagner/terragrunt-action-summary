@@ -4,7 +4,7 @@
     { pkgs, ... }:
     let
       jsDir = ../../js;
-      actionDir = ../../action;
+      actionDir = ../..;
     in
     {
       checks = {
