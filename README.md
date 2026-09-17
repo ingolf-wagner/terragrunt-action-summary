@@ -59,6 +59,17 @@ via terragrunt.
 
 The action reads `tg_action_output` (plain-text terragrunt/tofu output,
 URL-encoded by terragrunt-action), decodes it, parses the apply result, and
+## Requirements
+
+- **GitHub-hosted runners.** The rendered summary is uploaded from
+  `$GITHUB_STEP_SUMMARY` to the job summary page as a step attachment. On
+  self-hosted runners this upload is verified to fail silently — the action
+  exits 0, but the run's Summary tab stays empty (observed on a self-hosted
+  runner with Node 24; GitHub-hosted `ubuntu-latest` renders the same run
+  correctly). Until this is root-caused, run the summary step on a
+  GitHub-hosted runner.
+
+The action reads `tg_action_output` (plain-text terragrunt/tofu output,
 appends the Markdown summary to `$GITHUB_STEP_SUMMARY`. It never fails the
 workflow on unparseable output; guard the step with `if: always()` to get a
 summary even when the apply step fails — failures are rendered with an ❌ badge.
@@ -72,7 +83,7 @@ changing `js/src`, rebuild with `cd js && npm run build` and commit `js/dist/`.
 
 ```
 js/       parser, renderer, tests (jest) — npm test inside js/
-index.js, action.yml   the node20 action entrypoint at the repo root
+index.js, action.yml   the node24 action entrypoint at the repo root
 nix/      devshell + fixture generation with a local dummy provider
 terragrunt/, tofu/   fixture source stacks consumed by the integration tests
 ```
