@@ -80,7 +80,7 @@ function stripPrefix(line) {
         return line.slice(6);
     if (line.startsWith("terraform: "))
         return line.slice(11);
-    const tgMatch = line.match(/^(?:\d{2}|HH):(?:\d{2}|MM):(?:\d{2}|SS)\.(?:\d{3}|mmm) (?:STDOUT|STDERR) (?:\[\S+\] )?(?:tofu|terraform): /);
+    const tgMatch = line.match(/^(?:\d{2}|HH):(?:\d{2}|MM):(?:\d{2}|SS)\.(?:\d{3}|mmm) (?:STDOUT|STDERR|INFO|WARN|ERROR|DEBUG|TRACE)\s+(?:\[\S+\] )?(?:tofu|terraform): /);
     if (tgMatch)
         return line.slice(tgMatch[0].length);
     return line;
@@ -129,7 +129,7 @@ function parseBlock(module, lines) {
             continue;
         }
         // Outputs block
-        if (RE.outputsHdr.test(line)) {
+        if (RE.outputsHdr.test(line) || RE.outputsHdr.test(bare)) {
             inOutputs = true;
             continue;
         }
@@ -141,7 +141,7 @@ function parseBlock(module, lines) {
                 }
             }
             else {
-                const kv = line.match(RE.outputKV);
+                const kv = line.match(RE.outputKV) || bare.match(RE.outputKV);
                 if (kv) {
                     unit.outputs.push([kv[1], kv[2]]);
                 }

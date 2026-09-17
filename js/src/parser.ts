@@ -96,7 +96,7 @@ export function stripPrefix(line: string): string {
   if (line.startsWith("tofu: ")) return line.slice(6);
   if (line.startsWith("terraform: ")) return line.slice(11);
   const tgMatch = line.match(
-    /^(?:\d{2}|HH):(?:\d{2}|MM):(?:\d{2}|SS)\.(?:\d{3}|mmm) (?:STDOUT|STDERR) (?:\[\S+\] )?(?:tofu|terraform): /,
+    /^(?:\d{2}|HH):(?:\d{2}|MM):(?:\d{2}|SS)\.(?:\d{3}|mmm) (?:STDOUT|STDERR|INFO|WARN|ERROR|DEBUG|TRACE)\s+(?:\[\S+\] )?(?:tofu|terraform): /,
   );
   if (tgMatch) return line.slice(tgMatch[0].length);
   return line;
@@ -152,7 +152,7 @@ export function parseBlock(module: string | null, lines: string[]): Unit {
     }
 
     // Outputs block
-    if (RE.outputsHdr.test(line)) {
+    if (RE.outputsHdr.test(line) || RE.outputsHdr.test(bare)) {
       inOutputs = true;
       continue;
     }
@@ -163,7 +163,7 @@ export function parseBlock(module: string | null, lines: string[]): Unit {
           inOutputs = false;
         }
       } else {
-        const kv = line.match(RE.outputKV);
+        const kv = line.match(RE.outputKV) || bare.match(RE.outputKV);
         if (kv) {
           unit.outputs.push([kv[1]!, kv[2]!]);
         } else if (unit.outputs.length > 0) {

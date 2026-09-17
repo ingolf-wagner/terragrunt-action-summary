@@ -1,0 +1,14 @@
+HH:MM:SS.mmm WARN   Using `terragrunt.hcl` as the root of Terragrunt configurations is an anti-pattern, and no longer recommended. In a future version of Terragrunt, this will result in an error. You are advised to use a differently named file like `root.hcl` instead. For more information, see https://terragrunt.gruntwork.io/docs/migrate/migrating-from-root-terragrunt-hcl
+HH:MM:SS.mmm INFO   Downloading Terraform configurations from ../.. into ./.terragrunt-cache/HASH/HASH
+HH:MM:SS.mmm INFO   tofu: Initializing the backend...
+HH:MM:SS.mmm INFO   tofu: Successfully configured the backend "s3"! OpenTofu will automatically
+HH:MM:SS.mmm INFO   tofu: use this backend unless the backend configuration changes.
+HH:MM:SS.mmm INFO   tofu: github_team.dev: Creating...
+HH:MM:SS.mmm INFO   tofu: github_repository.repo: Modifying...
+HH:MM:SS.mmm INFO   tofu: github_team.legacy: Destroying...
+HH:MM:SS.mmm INFO   tofu: github_team.dev: Creation complete after 0s [id=12345]
+HH:MM:SS.mmm INFO   tofu: github_repository.repo: Modifications complete after 1s [id=repo-1]
+HH:MM:SS.mmm INFO   tofu: github_team.legacy: Destruction complete after 0s [id=999]
+HH:MM:SS.mmm INFO   tofu: Apply complete! Resources: 1 added, 1 changed, 1 destroyed.
+HH:MM:SS.mmm INFO   tofu: Outputs:
+HH:MM:SS.mmm INFO   tofu: repo_url = "https://example.com"
