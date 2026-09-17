@@ -9,11 +9,6 @@ exports[`apply 1`] = `## Tofu Summary ✅
 | \`data.dummy_value.lookup\` | 🔍 | ✔ | 0s |
 | \`dummy_thing.first\` (id=first-thing) | ✍️ | ✔ | 0s |
 | \`dummy_thing.second\` (id=second-thing) | ✍️ | ✔ | 0s |
-
-**2 outputs:**
-
-- \`datalookup_value\` = \`"value-for-query-key"\`
-- \`first_value\` = \`"alpha"\`
 `;
 
 exports[`init 1`] = `## Tofu Summary ❓

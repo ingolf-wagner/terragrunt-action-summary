@@ -9,8 +9,4 @@ exports[`apply 1`] = `## Tofu Summary ✅
 | \`github_team.dev\` (id=12345) | ✍️ | ✔ | 0s |
 | \`github_repository.repo\` (id=repo-1) | 👷 | ✔ | 1s |
 | \`github_team.legacy\` (id=999) | 🔥 | ✔ | 0s |
-
-**1 output:**
-
-- \`repo_url\` = \`"https://example.com"\`
 `;

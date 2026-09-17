@@ -54,7 +54,7 @@ function splitModulePrefix(address) {
 }
 /**
  * Render a single unit's section body (module heading, counts line,
- * resource table). Caller renders the run-level heading and outputs.
+ * resource table). Caller renders the run-level heading.
  */
 function renderUnit(unit) {
     let summary = "";
@@ -154,12 +154,6 @@ function renderMarkdown(units, resolution) {
     }
     else {
         summary += renderUnit(units[0]);
-    }
-    // Outputs (only for single-unit flat rendering)
-    if (!multipleUnits && units[0].outputs.length > 0) {
-        const outputs = units[0].outputs;
-        const items = outputs.map(([key, value]) => `- \`${key}\` = \`${value}\``);
-        summary += `\n**${outputs.length} output${outputs.length === 1 ? "" : "s"}:**\n\n${items.join("\n")}\n`;
     }
     return summary;
 }
