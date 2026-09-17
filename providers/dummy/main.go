@@ -4,10 +4,9 @@ package main
 import (
 	"context"
 	"flag"
-	"log"
-
-	"github.com/hashicorp/terraform-plugin-framework/providerserver"
 	"github.com/dummy/terraform-provider-dummy/internal/provider"
+	"github.com/hashicorp/terraform-plugin-framework/providerserver"
+	"log"
 )
 
 // Overridden at build time via -ldflags "-X main.address=..." so the same

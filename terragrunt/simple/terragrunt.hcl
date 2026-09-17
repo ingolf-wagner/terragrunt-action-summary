@@ -1,3 +1,3 @@
 terraform {
-  source = "../../tofu/simple"
+  source = "./"
 }

@@ -87,6 +87,9 @@ index.js, action.yml   the node24 action entrypoint at the repo root
 nix/      devshell + fixture generation with a local dummy provider
 terragrunt/, tofu/   fixture source stacks consumed by the integration tests
 ```
+Stacks shipping a `steps.hcl` marker (`max_step`) are generated in multiple
+phases via `TF_VAR_step`, accumulating state so fixtures cover update, destroy,
+and failure transitions.
 
 Run tests via the flake: `nix develop -c test`, integration tests with
 `nix develop -c test-integration`, or plain `cd js && npm test`. Regenerate

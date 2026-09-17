@@ -1,0 +1,135 @@
+HH:MM:SS.mmm INFO   The following units will be run, starting with dependencies and then their dependents:
+.
+╰── .
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.changed: Refreshing state... [id=changed-thing]
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.deleted[0]: Refreshing state... [id=deleted-thing]
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.fails_delete[0]: Refreshing state... [id=fail-delete-thing]
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.fails_update: Refreshing state... [id=fail-update-thing]
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.ok: Refreshing state... [id=ok-thing]
+HH:MM:SS.mmm STDOUT [.] tofu: OpenTofu used the selected providers to generate the following execution
+HH:MM:SS.mmm STDOUT [.] tofu: plan. Resource actions are indicated with the following symbols:
+HH:MM:SS.mmm STDOUT [.] tofu:   + create
+HH:MM:SS.mmm STDOUT [.] tofu:   ~ update in-place (current -> planned)
+HH:MM:SS.mmm STDOUT [.] tofu:   - destroy
+HH:MM:SS.mmm STDOUT [.] tofu: OpenTofu will perform the following actions:
+HH:MM:SS.mmm STDOUT [.] tofu:   # dummy_thing.changed will be updated in-place
+HH:MM:SS.mmm STDOUT [.] tofu:   ~ resource "dummy_thing" "changed" {
+HH:MM:SS.mmm STDOUT [.] tofu:         id          = "changed-thing"
+HH:MM:SS.mmm STDOUT [.] tofu:         name        = "changed-thing"
+HH:MM:SS.mmm STDOUT [.] tofu:       ~ value       = "initial" -> "changed"
+HH:MM:SS.mmm STDOUT [.] tofu:         # (3 unchanged attributes hidden)
+HH:MM:SS.mmm STDOUT [.] tofu:     }
+HH:MM:SS.mmm STDOUT [.] tofu:   # dummy_thing.deleted[0] will be destroyed
+HH:MM:SS.mmm STDOUT [.] tofu:   # (because index [0] is out of range for count)
+HH:MM:SS.mmm STDOUT [.] tofu:   - resource "dummy_thing" "deleted" {
+HH:MM:SS.mmm STDOUT [.] tofu:       - fail        = false -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - fail_delete = false -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - fail_update = false -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - id          = "deleted-thing" -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - name        = "deleted-thing" -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - value       = "default" -> null
+HH:MM:SS.mmm STDOUT [.] tofu:     }
+HH:MM:SS.mmm STDOUT [.] tofu:   # dummy_thing.fails will be created
+HH:MM:SS.mmm STDOUT [.] tofu:   + resource "dummy_thing" "fails" {
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail        = true
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail_delete = false
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail_update = false
+HH:MM:SS.mmm STDOUT [.] tofu:       + id          = (known after apply)
+HH:MM:SS.mmm STDOUT [.] tofu:       + name        = "fail-thing"
+HH:MM:SS.mmm STDOUT [.] tofu:       + value       = "default"
+HH:MM:SS.mmm STDOUT [.] tofu:     }
+HH:MM:SS.mmm STDOUT [.] tofu:   # dummy_thing.fails_delete[0] will be destroyed
+HH:MM:SS.mmm STDOUT [.] tofu:   # (because index [0] is out of range for count)
+HH:MM:SS.mmm STDOUT [.] tofu:   - resource "dummy_thing" "fails_delete" {
+HH:MM:SS.mmm STDOUT [.] tofu:       - fail        = false -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - fail_delete = true -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - fail_update = false -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - id          = "fail-delete-thing" -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - name        = "fail-delete-thing" -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - value       = "default" -> null
+HH:MM:SS.mmm STDOUT [.] tofu:     }
+HH:MM:SS.mmm STDOUT [.] tofu:   # dummy_thing.fails_update will be updated in-place
+HH:MM:SS.mmm STDOUT [.] tofu:   ~ resource "dummy_thing" "fails_update" {
+HH:MM:SS.mmm STDOUT [.] tofu:         id          = "fail-update-thing"
+HH:MM:SS.mmm STDOUT [.] tofu:         name        = "fail-update-thing"
+HH:MM:SS.mmm STDOUT [.] tofu:       ~ value       = "initial" -> "changed"
+HH:MM:SS.mmm STDOUT [.] tofu:         # (3 unchanged attributes hidden)
+HH:MM:SS.mmm STDOUT [.] tofu:     }
+HH:MM:SS.mmm STDOUT [.] tofu: Plan: 1 to add, 2 to change, 2 to destroy.
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.changed: Modifications complete after 0s [id=changed-thing]
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.changed: Modifying... [id=changed-thing]
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.deleted[0]: Destroying... [id=deleted-thing]
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.deleted[0]: Destruction complete after 0s
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.fails: Creating...
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.fails_delete[0]: Destroying... [id=fail-delete-thing]
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.fails_update: Modifying... [id=fail-update-thing]
+HH:MM:SS.mmm STDERR [.] tofu: Error: failed to delete dummy thing
+HH:MM:SS.mmm STDERR [.] tofu: resource "fail-delete-thing" was configured with fail_delete=true
+HH:MM:SS.mmm STDERR [.] tofu: Error: failed to update dummy thing
+HH:MM:SS.mmm STDERR [.] tofu:   with dummy_thing.fails_update,
+HH:MM:SS.mmm STDERR [.] tofu:   on main.tf line 41, in resource "dummy_thing" "fails_update":
+HH:MM:SS.mmm STDERR [.] tofu:   41: resource "dummy_thing" "fails_update" {
+HH:MM:SS.mmm STDERR [.] tofu: resource "fail-update-thing" was configured with fail_update=true
+HH:MM:SS.mmm STDERR [.] tofu: Error: failed to create dummy thing
+HH:MM:SS.mmm STDERR [.] tofu:   with dummy_thing.fails,
+HH:MM:SS.mmm STDERR [.] tofu:   on main.tf line 56, in resource "dummy_thing" "fails":
+HH:MM:SS.mmm STDERR [.] tofu:   56: resource "dummy_thing" "fails" {
+HH:MM:SS.mmm STDERR [.] tofu: resource "fail-thing" was configured with fail=true
+HH:MM:SS.mmm ERROR  Run failed: error occurred:
+
+* Failed to execute "/nix/store/a8ajbp648w3v4f5cg0gg28sdk4bxc2p0-opentofu-1.12.6/bin/tofu apply -no-color -auto-approve -input=false" in ./.terragrunt-cache/HASH/HASH
+  
+  Error: failed to delete dummy thing
+  
+  resource "fail-delete-thing" was configured with fail_delete=true
+  
+  Error: failed to update dummy thing
+  
+    with dummy_thing.fails_update,
+    on main.tf line 41, in resource "dummy_thing" "fails_update":
+    41: resource "dummy_thing" "fails_update" {
+  
+  resource "fail-update-thing" was configured with fail_update=true
+  
+  Error: failed to create dummy thing
+  
+    with dummy_thing.fails,
+    on main.tf line 56, in resource "dummy_thing" "fails":
+    56: resource "dummy_thing" "fails" {
+  
+  resource "fail-thing" was configured with fail=true
+  
+  exit status 1
+
+
+❯❯ Run Summary  1 units  Nms
+   ────────────────────────────
+   Failed       1
+
+HH:MM:SS.mmm INFO   TIP (debugging-docs): For help troubleshooting errors, visit https://docs.terragrunt.com/troubleshooting/debugging
+HH:MM:SS.mmm ERROR  error occurred:
+
+* Failed to execute "/nix/store/a8ajbp648w3v4f5cg0gg28sdk4bxc2p0-opentofu-1.12.6/bin/tofu apply -no-color -auto-approve -input=false" in ./.terragrunt-cache/HASH/HASH
+  
+  Error: failed to delete dummy thing
+  
+  resource "fail-delete-thing" was configured with fail_delete=true
+  
+  Error: failed to update dummy thing
+  
+    with dummy_thing.fails_update,
+    on main.tf line 41, in resource "dummy_thing" "fails_update":
+    41: resource "dummy_thing" "fails_update" {
+  
+  resource "fail-update-thing" was configured with fail_update=true
+  
+  Error: failed to create dummy thing
+  
+    with dummy_thing.fails,
+    on main.tf line 56, in resource "dummy_thing" "fails":
+    56: resource "dummy_thing" "fails" {
+  
+  resource "fail-thing" was configured with fail=true
+  
+  exit status 1
+

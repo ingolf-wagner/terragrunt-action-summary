@@ -1,5 +1,5 @@
 terraform {
-  source = "../../../tofu/simple"
+  source = "./"
 }
 
 dependencies {

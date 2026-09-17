@@ -12,12 +12,17 @@ const RE = {
     applyComplete: /Apply complete! Resources: (\d+) added, (\d+) changed, (\d+) destroyed/,
     planSummary: /Plan: (\d+) to add, (\d+) to change, (\d+) to destroy/,
     noChanges: /No changes\. Your infrastructure matches the configuration\./,
+    // Start lines for create/read are bare ("X: Creating..."), but real tofu
+    // suffixes modifying/destroy starts with the prior id
+    // ("X: Modifying... [id=y]"), so those two must not be end-anchored.
+    // Destruction completions carry no id at all (the resource is gone),
+    // unlike creation/modification completions.
     creating: /^(.+?): Creating\.\.\.\s*$/,
     creationDone: /^(.+?): Creation complete after (\d+)s \[id=(\S+)\]/,
-    modifying: /^(.+?): Modifying\.\.\.\s*$/,
+    modifying: /^(.+?): Modifying\.\.\./,
     modifyDone: /^(.+?): Modifications complete after (\d+)s \[id=(\S+)\]/,
-    destroying: /^(.+?): Destroying\.\.\.\s*$/,
-    destroyDone: /^(.+?): Destruction complete after (\d+)s \[id=(\S+)\]/,
+    destroying: /^(.+?): Destroying\.\.\./,
+    destroyDone: /^(.+?): Destruction complete after (\d+)s(?: \[id=(\S+)\])?/,
     reading: /^(.+?): Reading\.\.\.\s*$/,
     readDone: /^(.+?): Read complete after (\d+)s/,
     outputsHdr: /^Outputs:\s*$/,
@@ -244,11 +249,17 @@ function resolveUnit(unit) {
     }
     return model_1.RESOLUTION.UNKNOWN;
 }
-/** Push a pending (in-flight) resource transition, deduping repeats. */
+/**
+ * Push a pending (in-flight) resource transition. Dedupes against any
+ * existing row for the same address+action — pending or completed: the
+ * fixture generators sort consecutive transition lines lexicographically
+ * for determinism, which can emit a completion line before its start line
+ * (pushDone then records the completed row directly; the late start line
+ * must not push a duplicate). Each (address, action) occurs at most once
+ * per unit log, so this cannot mask a genuine second transition.
+ */
 function pushPending(unit, address, action) {
-    const dup = unit.resources.some((r) => r.state === model_1.ResourceStates.Pending && r.address === address &&
-        r.action === action);
-    if (dup) {
+    if (unit.resources.some((r) => r.address === address && r.action === action)) {
         return;
     }
     unit.resources.push({

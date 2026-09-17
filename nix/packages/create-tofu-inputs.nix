@@ -2,20 +2,42 @@
 # ./tofu against the locally compiled dummy provider (baked into
 # opentofu via withPlugins, no registry access) and records
 # apply/plan output — plain text and JSON — as jest fixture inputs in
-#
 #   <any>  : plain tofu apply + plan, one directory per stack
+#
+# Multi-phase stacks ("steps" convention): a stack may ship a marker file
+# steps.hcl containing `max_step = N`. The marker is inert to tofu (tofu
+# only auto-loads *.tf / *.tf.json); the stack itself declares
+# `variable "step"` and gates resource lifecycle on the step value:
+# changing the step produces in-place updates, count 1->0 destroys, and
+# failing resources emit errors. The generator applies such stacks once
+# per step with TF_VAR_step=<step> (1..N), each phase in the same work
+# dir so tofu state accumulates — later phases then record
+# updates/destroys/failures over earlier-phase resources. No terraform
+# state manipulation is needed. Single-phase stacks (no steps.hcl) are
+# generated exactly as before, and TF_VAR_step is never exported for
+# them (tofu errors on undeclared TF_VAR_* env vars).
 #
 # Stacks are discovered automatically: every directory under ./tofu/
 # becomes one fixture directory; adding a new folder there is all it takes.
 #
 # Per stack the following files are written to <fixtures>/<stack>/:
-#   apply.txt  plain-text tofu apply stdout+stderr (first run)
+#   apply.txt  plain-text tofu apply stdout+stderr (first run);
+#              multi-phase stacks instead record one file per phase:
+#              apply-step1.txt ... apply-stepN.txt (run per step, in
+#              order, sharing tofu state)
 #   apply.json tofu apply --json NDJSON event stream (second run; one
 #              JSON object per line: version, planned_change,
 #              apply_start, apply_complete, apply_errored,
-#              change_summary, outputs, diagnostic, ...)
+#              change_summary, outputs, diagnostic, ...);
+#              multi-phase stacks run this as a repeat of the FINAL
+#              phase (TF_VAR_step=$maxStep): a repeat of the final
+#              phase is deterministic — transitions that already
+#              succeeded in the final phase are no-ops on the repeat;
+#              failing ones retry and fail again
 #   plan.txt   tofu plan stdout+stderr (run after apply, so a no-op plan)
-#   plan.json  tofu show -json of the saved plan
+#   plan.json  tofu show -json of the saved plan;
+#              multi-phase stacks run both with TF_VAR_step=$maxStep so
+#              the plan reflects the final configuration
 #
 # The tofu/ stacks are embedded as a filtered store path: editing them
 # changes the derivation and regenerates the fixtures on the next run.
@@ -68,15 +90,50 @@ let
 
     # First apply (plain text): creates the resources. The dummy provider
     # is idempotent, so a second run records the same events.
-    "${tofuBinary}" -chdir="$work" apply -auto-approve ${applyFlags} 2>&1 \
-      >"$fixtures/apply.txt" || true
+    # Multi-phase stacks (steps.hcl marker): apply once per step with
+    # TF_VAR_step set so state accumulates across phases in $work.
+    maxStep=1
+    if [ -f "$stack/steps.hcl" ]; then
+      maxStep="$(awk -F= '/^[[:space:]]*max_step/{gsub(/[^0-9]/,"",$2); print $2}' "$stack/steps.hcl")"
+    fi
+    [ -n "$maxStep" ] || maxStep=1
+    if [ "$maxStep" -gt 1 ]; then
+      step=1
+      while [ "$step" -le "$maxStep" ]; do
+        TF_VAR_step=$step "${tofuBinary}" -chdir="$work" apply -auto-approve ${applyFlags} 2>&1 \
+          >"$fixtures/apply-step$step.txt" || true
+        step=$((step + 1))
+      done
+    else
+      "${tofuBinary}" -chdir="$work" apply -auto-approve ${applyFlags} 2>&1 \
+        >"$fixtures/apply.txt" || true
+    fi
 
-    "${tofuBinary}" -chdir="$work" apply -auto-approve -json ${applyFlags} 2>/dev/null \
-      | sed 's/"@timestamp":"[^"]*"/"@timestamp":"redacted"/' \
-      >"$fixtures/apply.json" || true
+    # JSON event stream: a repeat apply with -json. For multi-phase
+    # stacks this repeats the FINAL phase (TF_VAR_step=$maxStep): a
+    # repeat of the final phase is deterministic — transitions that
+    # already succeeded in the final phase are no-ops on the repeat;
+    # failing ones retry and fail again.
+    if [ "$maxStep" -gt 1 ]; then
+      TF_VAR_step=$maxStep "${tofuBinary}" -chdir="$work" apply -auto-approve -json ${applyFlags} 2>/dev/null \
+        | sed 's/"@timestamp":"[^"]*"/"@timestamp":"redacted"/' \
+        >"$fixtures/apply.json" || true
+    else
+      "${tofuBinary}" -chdir="$work" apply -auto-approve -json ${applyFlags} 2>/dev/null \
+        | sed 's/"@timestamp":"[^"]*"/"@timestamp":"redacted"/' \
+        >"$fixtures/apply.json" || true
+    fi
 
-    "${tofuBinary}" -chdir="$work" plan -out="$work/plan.tfplan" ${planFlags} 2>&1 \
-      >"$fixtures/plan.txt" || true
+    # Plan after apply: for multi-phase stacks use the final step value
+    # so the plan reflects the final configuration.
+    if [ "$maxStep" -gt 1 ]; then
+      TF_VAR_step=$maxStep "${tofuBinary}" -chdir="$work" plan -out="$work/plan.tfplan" ${planFlags} 2>&1 \
+        >"$fixtures/plan.txt" || true
+    else
+      "${tofuBinary}" -chdir="$work" plan -out="$work/plan.tfplan" ${planFlags} 2>&1 \
+        >"$fixtures/plan.txt" || true
+    fi
+
     if [ -f "$work/plan.tfplan" ]; then
       "${tofuBinary}" -chdir="$work" show -json "$work/plan.tfplan" \
         | sed 's/"timestamp":"[^"]*"/"timestamp":"redacted"/' \

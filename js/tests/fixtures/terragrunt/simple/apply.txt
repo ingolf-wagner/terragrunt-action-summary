@@ -9,17 +9,21 @@ HH:MM:SS.mmm STDOUT [.] tofu:   + create
 HH:MM:SS.mmm STDOUT [.] tofu: OpenTofu will perform the following actions:
 HH:MM:SS.mmm STDOUT [.] tofu:   # dummy_thing.first will be created
 HH:MM:SS.mmm STDOUT [.] tofu:   + resource "dummy_thing" "first" {
-HH:MM:SS.mmm STDOUT [.] tofu:       + fail  = false
-HH:MM:SS.mmm STDOUT [.] tofu:       + id    = (known after apply)
-HH:MM:SS.mmm STDOUT [.] tofu:       + name  = "first-thing"
-HH:MM:SS.mmm STDOUT [.] tofu:       + value = "alpha"
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail        = false
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail_delete = false
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail_update = false
+HH:MM:SS.mmm STDOUT [.] tofu:       + id          = (known after apply)
+HH:MM:SS.mmm STDOUT [.] tofu:       + name        = "first-thing"
+HH:MM:SS.mmm STDOUT [.] tofu:       + value       = "alpha"
 HH:MM:SS.mmm STDOUT [.] tofu:     }
 HH:MM:SS.mmm STDOUT [.] tofu:   # dummy_thing.second will be created
 HH:MM:SS.mmm STDOUT [.] tofu:   + resource "dummy_thing" "second" {
-HH:MM:SS.mmm STDOUT [.] tofu:       + fail  = false
-HH:MM:SS.mmm STDOUT [.] tofu:       + id    = (known after apply)
-HH:MM:SS.mmm STDOUT [.] tofu:       + name  = "second-thing"
-HH:MM:SS.mmm STDOUT [.] tofu:       + value = "beta"
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail        = false
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail_delete = false
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail_update = false
+HH:MM:SS.mmm STDOUT [.] tofu:       + id          = (known after apply)
+HH:MM:SS.mmm STDOUT [.] tofu:       + name        = "second-thing"
+HH:MM:SS.mmm STDOUT [.] tofu:       + value       = "beta"
 HH:MM:SS.mmm STDOUT [.] tofu:     }
 HH:MM:SS.mmm STDOUT [.] tofu: Plan: 2 to add, 0 to change, 0 to destroy.
 HH:MM:SS.mmm STDOUT [.] tofu: Changes to Outputs:

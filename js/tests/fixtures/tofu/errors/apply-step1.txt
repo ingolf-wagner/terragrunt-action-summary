@@ -1,0 +1,79 @@
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+OpenTofu will perform the following actions:
+
+  # dummy_thing.changed will be created
+  + resource "dummy_thing" "changed" {
+      + fail        = false
+      + fail_delete = false
+      + fail_update = false
+      + id          = (known after apply)
+      + name        = "changed-thing"
+      + value       = "initial"
+    }
+
+  # dummy_thing.deleted[0] will be created
+  + resource "dummy_thing" "deleted" {
+      + fail        = false
+      + fail_delete = false
+      + fail_update = false
+      + id          = (known after apply)
+      + name        = "deleted-thing"
+      + value       = "default"
+    }
+
+  # dummy_thing.fails will be created
+  + resource "dummy_thing" "fails" {
+      + fail        = true
+      + fail_delete = false
+      + fail_update = false
+      + id          = (known after apply)
+      + name        = "fail-thing"
+      + value       = "default"
+    }
+
+  # dummy_thing.fails_delete[0] will be created
+  + resource "dummy_thing" "fails_delete" {
+      + fail        = false
+      + fail_delete = true
+      + fail_update = false
+      + id          = (known after apply)
+      + name        = "fail-delete-thing"
+      + value       = "default"
+    }
+
+  # dummy_thing.fails_update will be created
+  + resource "dummy_thing" "fails_update" {
+      + fail        = false
+      + fail_delete = false
+      + fail_update = true
+      + id          = (known after apply)
+      + name        = "fail-update-thing"
+      + value       = "initial"
+    }
+
+  # dummy_thing.ok will be created
+  + resource "dummy_thing" "ok" {
+      + fail        = false
+      + fail_delete = false
+      + fail_update = false
+      + id          = (known after apply)
+      + name        = "ok-thing"
+      + value       = "works"
+    }
+
+Plan: 6 to add, 0 to change, 0 to destroy.
+dummy_thing.ok: Creating...
+dummy_thing.ok: Creation complete after 0s [id=ok-thing]
+dummy_thing.fails: Creating...
+dummy_thing.changed: Creating...
+dummy_thing.changed: Creation complete after 0s [id=changed-thing]
+dummy_thing.fails_delete[0]: Creating...
+dummy_thing.fails_delete[0]: Creation complete after 0s [id=fail-delete-thing]
+dummy_thing.fails_update: Creating...
+dummy_thing.fails_update: Creation complete after 0s [id=fail-update-thing]
+dummy_thing.deleted[0]: Creating...
+dummy_thing.deleted[0]: Creation complete after 0s [id=deleted-thing]

@@ -1,19 +1,43 @@
 HH:MM:SS.mmm INFO   The following units will be run, starting with dependencies and then their dependents:
 .
 ╰── .
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.changed: Refreshing state... [id=changed-thing]
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.fails_delete[0]: Refreshing state... [id=fail-delete-thing]
+HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.fails_update: Refreshing state... [id=fail-update-thing]
 HH:MM:SS.mmm STDOUT [.] tofu: dummy_thing.ok: Refreshing state... [id=ok-thing]
 HH:MM:SS.mmm STDOUT [.] tofu: OpenTofu used the selected providers to generate the following execution
 HH:MM:SS.mmm STDOUT [.] tofu: plan. Resource actions are indicated with the following symbols:
 HH:MM:SS.mmm STDOUT [.] tofu:   + create
+HH:MM:SS.mmm STDOUT [.] tofu:   ~ update in-place (current -> planned)
+HH:MM:SS.mmm STDOUT [.] tofu:   - destroy
 HH:MM:SS.mmm STDOUT [.] tofu: OpenTofu will perform the following actions:
 HH:MM:SS.mmm STDOUT [.] tofu:   # dummy_thing.fails will be created
 HH:MM:SS.mmm STDOUT [.] tofu:   + resource "dummy_thing" "fails" {
-HH:MM:SS.mmm STDOUT [.] tofu:       + fail  = true
-HH:MM:SS.mmm STDOUT [.] tofu:       + id    = (known after apply)
-HH:MM:SS.mmm STDOUT [.] tofu:       + name  = "fail-thing"
-HH:MM:SS.mmm STDOUT [.] tofu:       + value = "default"
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail        = true
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail_delete = false
+HH:MM:SS.mmm STDOUT [.] tofu:       + fail_update = false
+HH:MM:SS.mmm STDOUT [.] tofu:       + id          = (known after apply)
+HH:MM:SS.mmm STDOUT [.] tofu:       + name        = "fail-thing"
+HH:MM:SS.mmm STDOUT [.] tofu:       + value       = "default"
 HH:MM:SS.mmm STDOUT [.] tofu:     }
-HH:MM:SS.mmm STDOUT [.] tofu: Plan: 1 to add, 0 to change, 0 to destroy.
+HH:MM:SS.mmm STDOUT [.] tofu:   # dummy_thing.fails_delete[0] will be destroyed
+HH:MM:SS.mmm STDOUT [.] tofu:   # (because index [0] is out of range for count)
+HH:MM:SS.mmm STDOUT [.] tofu:   - resource "dummy_thing" "fails_delete" {
+HH:MM:SS.mmm STDOUT [.] tofu:       - fail        = false -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - fail_delete = true -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - fail_update = false -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - id          = "fail-delete-thing" -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - name        = "fail-delete-thing" -> null
+HH:MM:SS.mmm STDOUT [.] tofu:       - value       = "default" -> null
+HH:MM:SS.mmm STDOUT [.] tofu:     }
+HH:MM:SS.mmm STDOUT [.] tofu:   # dummy_thing.fails_update will be updated in-place
+HH:MM:SS.mmm STDOUT [.] tofu:   ~ resource "dummy_thing" "fails_update" {
+HH:MM:SS.mmm STDOUT [.] tofu:         id          = "fail-update-thing"
+HH:MM:SS.mmm STDOUT [.] tofu:         name        = "fail-update-thing"
+HH:MM:SS.mmm STDOUT [.] tofu:       ~ value       = "initial" -> "changed"
+HH:MM:SS.mmm STDOUT [.] tofu:         # (3 unchanged attributes hidden)
+HH:MM:SS.mmm STDOUT [.] tofu:     }
+HH:MM:SS.mmm STDOUT [.] tofu: Plan: 1 to add, 1 to change, 1 to destroy.
 
 ❯❯ Run Summary  1 units  Nms
    ────────────────────────────

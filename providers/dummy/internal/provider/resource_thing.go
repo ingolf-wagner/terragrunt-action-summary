@@ -20,10 +20,12 @@ var _ resource.Resource = &thingResource{}
 type thingResource struct{}
 
 type thingResourceModel struct {
-	ID    types.String `tfsdk:"id"`
-	Name  types.String `tfsdk:"name"`
-	Value types.String `tfsdk:"value"`
-	Fail  types.Bool   `tfsdk:"fail"`
+	ID         types.String `tfsdk:"id"`
+	Name       types.String `tfsdk:"name"`
+	Value      types.String `tfsdk:"value"`
+	Fail       types.Bool   `tfsdk:"fail"`
+	FailUpdate types.Bool   `tfsdk:"fail_update"`
+	FailDelete types.Bool   `tfsdk:"fail_delete"`
 }
 
 func newThingResource() resource.Resource {
@@ -59,6 +61,16 @@ func (r *thingResource) Schema(_ context.Context, _ resource.SchemaRequest, resp
 				Computed: true,
 				Default:  booldefault.StaticBool(false),
 			},
+			"fail_update": schema.BoolAttribute{
+				Optional: true,
+				Computed: true,
+				Default:  booldefault.StaticBool(false),
+			},
+			"fail_delete": schema.BoolAttribute{
+				Optional: true,
+				Computed: true,
+				Default:  booldefault.StaticBool(false),
+			},
 		},
 	}
 }
@@ -83,6 +95,8 @@ func (r *thingResource) Create(ctx context.Context, req resource.CreateRequest, 
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 }
 
+// Read must never fail: tofu refreshes (Read) before planning updates, so a
+// Read failure would mask fail_update.
 func (r *thingResource) Read(ctx context.Context, req resource.ReadRequest, resp *resource.ReadResponse) {
 	var state thingResourceModel
 	diags := req.State.Get(ctx, &state)
@@ -102,11 +116,36 @@ func (r *thingResource) Update(ctx context.Context, req resource.UpdateRequest, 
 		return
 	}
 
+	if plan.FailUpdate.ValueBool() {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"failed to update dummy thing",
+			fmt.Sprintf("resource %q was configured with fail_update=true", plan.Name.ValueString()),
+		))
+		return
+	}
+
 	// id stays as name (name is force-new so it won't change on update)
 	plan.ID = plan.Name
 	resp.Diagnostics.Append(resp.State.Set(ctx, &plan)...)
 }
 
-func (r *thingResource) Delete(_ context.Context, _ resource.DeleteRequest, _ *resource.DeleteResponse) {
+func (r *thingResource) Delete(ctx context.Context, req resource.DeleteRequest, resp *resource.DeleteResponse) {
+	var state thingResourceModel
+	diags := req.State.Get(ctx, &state)
+	resp.Diagnostics.Append(diags...)
+	if resp.Diagnostics.HasError() {
+		return
+	}
+
+	// Delete receives only state: once count=0 removes the instance from
+	// config, the flag must already live in state (authored at create time).
+	if state.FailDelete.ValueBool() {
+		resp.Diagnostics.Append(diag.NewErrorDiagnostic(
+			"failed to delete dummy thing",
+			fmt.Sprintf("resource %q was configured with fail_delete=true", state.Name.ValueString()),
+		))
+		return
+	}
+
 	// no-op: framework removes from state automatically
 }
