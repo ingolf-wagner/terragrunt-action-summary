@@ -16,14 +16,13 @@ export const COUNTS_KIND = {
 export type Resolution = (typeof RESOLUTION)[keyof typeof RESOLUTION];
 export type CountsKind = (typeof COUNTS_KIND)[keyof typeof COUNTS_KIND];
 
-export type Action = "create" | "modify" | "destroy" | "read";
+export type Action = "create" | "modify" | "destroy";
 export type ResourceState = "completed" | "pending";
 
 export const Actions = {
   Create: "create",
   Modify: "modify",
   Destroy: "destroy",
-  Read: "read",
 } as const satisfies Record<string, Action>;
 
 export const ResourceStates = {

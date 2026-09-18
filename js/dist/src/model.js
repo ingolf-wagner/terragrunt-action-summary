@@ -19,7 +19,6 @@ exports.Actions = {
     Create: "create",
     Modify: "modify",
     Destroy: "destroy",
-    Read: "read",
 };
 exports.ResourceStates = {
     Completed: "completed",

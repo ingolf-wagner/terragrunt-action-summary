@@ -16,7 +16,6 @@ const ICONS: Record<Action, string> = {
   create: "✍️",
   modify: "👷",
   destroy: "🔥",
-  read: "🔍",
 };
 
 // Resolution badges

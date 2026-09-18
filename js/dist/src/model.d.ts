@@ -11,13 +11,12 @@ export declare const COUNTS_KIND: {
 };
 export type Resolution = (typeof RESOLUTION)[keyof typeof RESOLUTION];
 export type CountsKind = (typeof COUNTS_KIND)[keyof typeof COUNTS_KIND];
-export type Action = "create" | "modify" | "destroy" | "read";
+export type Action = "create" | "modify" | "destroy";
 export type ResourceState = "completed" | "pending";
 export declare const Actions: {
     readonly Create: "create";
     readonly Modify: "modify";
     readonly Destroy: "destroy";
-    readonly Read: "read";
 };
 export declare const ResourceStates: {
     readonly Completed: "completed";

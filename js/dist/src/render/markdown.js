@@ -11,7 +11,6 @@ const ICONS = {
     create: "✍️",
     modify: "👷",
     destroy: "🔥",
-    read: "🔍",
 };
 // Resolution badges
 const RESOLUTION_BADGE = {

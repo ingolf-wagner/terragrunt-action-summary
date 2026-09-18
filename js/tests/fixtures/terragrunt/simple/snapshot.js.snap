@@ -6,7 +6,6 @@ exports[`apply 1`] = `## Tofu Summary ✅
 
 | resource | action | state | time |
 | --- | --- | --- | --- |
-| \`data.dummy_value.lookup\` | 🔍 | ✔ | 0s |
 | \`dummy_thing.first\` (id=first-thing) | ✍️ | ✔ | 0s |
 | \`dummy_thing.second\` (id=second-thing) | ✍️ | ✔ | 0s |
 `;
@@ -50,8 +49,4 @@ HH:MM:SS.mmm STDOUT [.] tofu: OpenTofu has been successfully initialized!
 exports[`plan 1`] = `## Tofu Summary ✅
 
 **No changes.**
-
-| resource | action | state | time |
-| --- | --- | --- | --- |
-| \`data.dummy_value.lookup\` | 🔍 | ✔ | 0s |
 `;

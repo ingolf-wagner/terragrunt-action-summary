@@ -12,7 +12,7 @@ const RE = {
     applyComplete: /Apply complete! Resources: (\d+) added, (\d+) changed, (\d+) destroyed/,
     planSummary: /Plan: (\d+) to add, (\d+) to change, (\d+) to destroy/,
     noChanges: /No changes\. Your infrastructure matches the configuration\./,
-    // Start lines for create/read are bare ("X: Creating..."), but real tofu
+    // Start lines for create are bare ("X: Creating..."), but real tofu
     // suffixes modifying/destroy starts with the prior id
     // ("X: Modifying... [id=y]"), so those two must not be end-anchored.
     // Destruction completions carry no id at all (the resource is gone),
@@ -23,8 +23,6 @@ const RE = {
     modifyDone: /^(.+?): Modifications complete after (\d+)s \[id=(\S+)\]/,
     destroying: /^(.+?): Destroying\.\.\./,
     destroyDone: /^(.+?): Destruction complete after (\d+)s(?: \[id=(\S+)\])?/,
-    reading: /^(.+?): Reading\.\.\.\s*$/,
-    readDone: /^(.+?): Read complete after (\d+)s/,
     outputsHdr: /^Outputs:\s*$/,
     // Matches real terragrunt timestamps (HH:MM:SS.mmm digits) and the
     // redacted fixture form (HH:MM:SS.mmm literal) written by normalizeTxt.
@@ -199,20 +197,6 @@ function parseBlock(module, lines) {
             const m = bare.match(RE.destroyDone);
             if (m) {
                 pushDone(unit, m[1], model_1.Actions.Destroy, m[2], m[3]);
-                continue;
-            }
-        }
-        {
-            const m = bare.match(RE.reading);
-            if (m) {
-                pushPending(unit, m[1], model_1.Actions.Read);
-                continue;
-            }
-        }
-        {
-            const m = bare.match(RE.readDone);
-            if (m) {
-                pushDone(unit, m[1], model_1.Actions.Read, m[2], null);
                 continue;
             }
         }

@@ -15,7 +15,6 @@ Repo: [ingolf-wagner/terragrunt-action-summary](https://github.com/ingolf-wagner
 
 | resource | action | state | time |
 | --- | --- | --- | --- |
-| `data.dummy_value.lookup` | 🔍 | ✔ | 0s |
 | `dummy_thing.first` (id=first-thing) | ✍️ | ✔ | 0s |
 | `dummy_thing.second` (id=second-thing) | ✍️ | ✔ | 0s |
 
