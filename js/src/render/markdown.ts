@@ -13,8 +13,8 @@ import {
 
 // Action icons
 const ICONS: Record<Action, string> = {
-  create: "✍️",
-  modify: "👷",
+  create: "✨️",
+  modify: "🔧",
   destroy: "🔥",
 };
 
