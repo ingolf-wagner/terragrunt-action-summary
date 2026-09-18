@@ -7,16 +7,16 @@ exports[`apply 1`] = `## Tofu Summary ✅
 
 | resource | action | state | time |
 | --- | --- | --- | --- |
-| \`dummy_thing.first\` (id=first-thing) | ✍️ | ✔ | 0s |
-| \`dummy_thing.second\` (id=second-thing) | ✍️ | ✔ | 0s |
+| \`dummy_thing.first\` (id=first-thing) | ✨️ | ✔ | 0s |
+| \`dummy_thing.second\` (id=second-thing) | ✨️ | ✔ | 0s |
 
 ### second
 **Resources:** 2 added, 0 changed, 0 destroyed.
 
 | resource | action | state | time |
 | --- | --- | --- | --- |
-| \`dummy_thing.first\` (id=first-thing) | ✍️ | ✔ | 0s |
-| \`dummy_thing.second\` (id=second-thing) | ✍️ | ✔ | 0s |
+| \`dummy_thing.first\` (id=first-thing) | ✨️ | ✔ | 0s |
+| \`dummy_thing.second\` (id=second-thing) | ✨️ | ✔ | 0s |
 
 **Total:** 4 added, 0 changed, 0 destroyed.
 `;

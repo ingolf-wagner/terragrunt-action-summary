@@ -6,7 +6,7 @@ exports[`apply 1`] = `## Tofu Summary ✅
 
 | resource | action | state | time |
 | --- | --- | --- | --- |
-| \`github_team.dev\` (id=12345) | ✍️ | ✔ | 0s |
-| \`github_repository.repo\` (id=repo-1) | 👷 | ✔ | 1s |
+| \`github_team.dev\` (id=12345) | ✨️ | ✔ | 0s |
+| \`github_repository.repo\` (id=repo-1) | 🔧 | ✔ | 1s |
 | \`github_team.legacy\` (id=999) | 🔥 | ✔ | 0s |
 `;

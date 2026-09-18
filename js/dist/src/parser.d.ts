@@ -1,7 +1,7 @@
 import { type TerraformRun, type Unit } from "./model";
 interface RawUnit {
-    module: string | null;
-    lines: string[];
+  module: string | null;
+  lines: string[];
 }
 /**
  * Split raw output into per-unit blocks. Units are delimited by terragrunt
@@ -18,7 +18,10 @@ export declare function splitUnits(raw: string): RawUnit[];
  */
 export declare function stripPrefix(line: string): string;
 /** Parse one unit block's lines into a Unit. */
-export declare function parseBlock(module: string | null, lines: string[]): Unit;
+export declare function parseBlock(
+  module: string | null,
+  lines: string[],
+): Unit;
 /** Parse raw decoded tofu plan/apply output into the full run model. */
 export declare function parse(raw: string): TerraformRun;
 export {};

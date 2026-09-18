@@ -31,6 +31,13 @@ const RE = {
   modifyDone: /^(.+?): Modifications complete after (\d+)s \[id=(\S+)\]/,
   destroying: /^(.+?): Destroying\.\.\./,
   destroyDone: /^(.+?): Destruction complete after (\d+)s(?: \[id=(\S+)\])?/,
+  // Plan-phase change headers: "# <address> will be created|destroyed|updated
+  // in-place" (or "must be replaced", optionally via "is tainted, so ...").
+  // Data sources ("will be read during apply") and removed blocks ("will no
+  // longer be managed") are intentionally unmatched — only state-changing
+  // managed resources belong in the summary.
+  planChange:
+    /^\s*#\s+(\S+) (will be created|will be destroyed|will be updated in-place|is tainted, so must be replaced|must be replaced)\b/,
   outputsHdr: /^Outputs:\s*$/,
   // Matches real terragrunt timestamps (HH:MM:SS.mmm digits) and the
   // redacted fixture form (HH:MM:SS.mmm literal) written by normalizeTxt.
@@ -109,6 +116,10 @@ export function stripPrefix(line: string): string {
 export function parseBlock(module: string | null, lines: string[]): Unit {
   const unit = createUnit(module);
   let inOutputs = false;
+  // Set once a real resource-transition line (Creating/Modifying/Destroying/
+  // any completion) is seen. Gates plan-phase header parsing and separates
+  // planned-pending rows (plan-only log) from stuck transitions (apply log).
+  let sawTransition = false;
 
   for (const rawLine of lines) {
     // Trim trailing whitespace per line (Rust: line.trim_end())
@@ -176,6 +187,28 @@ export function parseBlock(module: string | null, lines: string[]): Unit {
       continue;
     }
 
+    // Plan-phase change headers ("# addr will be created", ...). Pushed as
+    // pending rows so a later apply transition completes them in place; a
+    // plan-only run keeps them pending, rendered with the ⏳ badge. Applied
+    // only before any transition lines were seen — after apply starts, "#"
+    // comment lines can no longer be plan headers.
+    {
+      const m = bare.match(RE.planChange);
+      if (m && !sawTransition) {
+        const phrase = m[2]!;
+        pushPending(
+          unit,
+          m[1]!,
+          phrase.includes("destroy")
+            ? Actions.Destroy
+            : phrase.includes("updated")
+            ? Actions.Modify
+            : Actions.Create,
+        );
+        continue;
+      }
+    }
+
     // Resource transitions (on bare = prefix-stripped line).
     // Start lines push a pending row; the matching completion line later
     // flips that row to completed in place (FIFO per address, so ordered
@@ -183,6 +216,7 @@ export function parseBlock(module: string | null, lines: string[]): Unit {
     {
       const m = bare.match(RE.creating);
       if (m) {
+        sawTransition = true;
         pushPending(unit, m[1]!, Actions.Create);
         continue;
       }
@@ -190,6 +224,7 @@ export function parseBlock(module: string | null, lines: string[]): Unit {
     {
       const m = bare.match(RE.creationDone);
       if (m) {
+        sawTransition = true;
         pushDone(unit, m[1]!, Actions.Create, m[2]!, m[3]!);
         continue;
       }
@@ -197,6 +232,7 @@ export function parseBlock(module: string | null, lines: string[]): Unit {
     {
       const m = bare.match(RE.modifying);
       if (m) {
+        sawTransition = true;
         pushPending(unit, m[1]!, Actions.Modify);
         continue;
       }
@@ -204,6 +240,7 @@ export function parseBlock(module: string | null, lines: string[]): Unit {
     {
       const m = bare.match(RE.modifyDone);
       if (m) {
+        sawTransition = true;
         pushDone(unit, m[1]!, Actions.Modify, m[2]!, m[3]!);
         continue;
       }
@@ -211,6 +248,7 @@ export function parseBlock(module: string | null, lines: string[]): Unit {
     {
       const m = bare.match(RE.destroying);
       if (m) {
+        sawTransition = true;
         pushPending(unit, m[1]!, Actions.Destroy);
         continue;
       }
@@ -218,6 +256,7 @@ export function parseBlock(module: string | null, lines: string[]): Unit {
     {
       const m = bare.match(RE.destroyDone);
       if (m) {
+        sawTransition = true;
         pushDone(unit, m[1]!, Actions.Destroy, m[2]!, m[3]!);
         continue;
       }
@@ -230,7 +269,7 @@ export function parseBlock(module: string | null, lines: string[]): Unit {
   }
 
   // Resolve the unit's final state from what the log showed.
-  unit.resolution = resolveUnit(unit);
+  unit.resolution = resolveUnit(unit, sawTransition);
   return unit;
 }
 
@@ -245,14 +284,18 @@ function parseCounts(m: RegExpMatchArray): Counts {
 
 /**
  * Final state of a unit from its parsed contents:
- *   failure - errors seen, or resource transitions that never completed
+ *   failure - errors seen, or transitions that started but never completed
  *   success - a plan/apply summary line was seen and no errors
  *   unknown - nothing recognizable
+ * Pending rows from plan-phase headers (sawTransition false) are planned
+ * changes, not failures — only a pending row alongside a real transition
+ * line means apply stalled mid-change.
  */
-function resolveUnit(unit: Unit): Resolution {
+function resolveUnit(unit: Unit, sawTransition: boolean): Resolution {
   if (
     unit.errors.length > 0 ||
-    unit.resources.some((r) => r.state === ResourceStates.Pending)
+    (sawTransition &&
+      unit.resources.some((r) => r.state === ResourceStates.Pending))
   ) {
     return RESOLUTION.FAILURE;
   }

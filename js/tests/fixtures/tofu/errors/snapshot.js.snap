@@ -6,12 +6,12 @@ exports[`apply-step1 1`] = `## Tofu Summary ❌
 
 | resource | action | state | time |
 | --- | --- | --- | --- |
-| \`dummy_thing.ok\` (id=ok-thing) | ✍️ | ✔ | 0s |
-| \`dummy_thing.fails\` | ✍️ | ⏳ |  |
-| \`dummy_thing.changed\` (id=changed-thing) | ✍️ | ✔ | 0s |
-| \`dummy_thing.fails_delete[0]\` (id=fail-delete-thing) | ✍️ | ✔ | 0s |
-| \`dummy_thing.fails_update\` (id=fail-update-thing) | ✍️ | ✔ | 0s |
-| \`dummy_thing.deleted[0]\` (id=deleted-thing) | ✍️ | ✔ | 0s |
+| \`dummy_thing.changed\` (id=changed-thing) | ✨️ | ✔ | 0s |
+| \`dummy_thing.deleted[0]\` (id=deleted-thing) | ✨️ | ✔ | 0s |
+| \`dummy_thing.fails\` | ✨️ | ⏳ |  |
+| \`dummy_thing.fails_delete[0]\` (id=fail-delete-thing) | ✨️ | ✔ | 0s |
+| \`dummy_thing.fails_update\` (id=fail-update-thing) | ✨️ | ✔ | 0s |
+| \`dummy_thing.ok\` (id=ok-thing) | ✨️ | ✔ | 0s |
 `;
 
 exports[`apply-step2 1`] = `## Tofu Summary ❌
@@ -20,14 +20,20 @@ exports[`apply-step2 1`] = `## Tofu Summary ❌
 
 | resource | action | state | time |
 | --- | --- | --- | --- |
+| \`dummy_thing.changed\` (id=changed-thing) | 🔧 | ✔ | 0s |
 | \`dummy_thing.deleted[0]\` | 🔥 | ✔ | 0s |
+| \`dummy_thing.fails\` | ✨️ | ⏳ |  |
 | \`dummy_thing.fails_delete[0]\` | 🔥 | ⏳ |  |
-| \`dummy_thing.fails\` | ✍️ | ⏳ |  |
-| \`dummy_thing.changed\` (id=changed-thing) | 👷 | ✔ | 0s |
-| \`dummy_thing.fails_update\` | 👷 | ⏳ |  |
+| \`dummy_thing.fails_update\` | 🔧 | ⏳ |  |
 `;
 
 exports[`plan 1`] = `## Tofu Summary ✅
 
 **Plan:** 1 to add, 1 to change, 1 to destroy.
+
+| resource | action | state | time |
+| --- | --- | --- | --- |
+| \`dummy_thing.fails\` | ✨️ | ⏳ |  |
+| \`dummy_thing.fails_delete[0]\` | 🔥 | ⏳ |  |
+| \`dummy_thing.fails_update\` | 🔧 | ⏳ |  |
 `;

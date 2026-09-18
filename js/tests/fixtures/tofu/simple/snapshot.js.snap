@@ -6,8 +6,8 @@ exports[`apply 1`] = `## Tofu Summary ✅
 
 | resource | action | state | time |
 | --- | --- | --- | --- |
-| \`dummy_thing.first\` (id=first-thing) | ✍️ | ✔ | 0s |
-| \`dummy_thing.second\` (id=second-thing) | ✍️ | ✔ | 0s |
+| \`dummy_thing.first\` (id=first-thing) | ✨️ | ✔ | 0s |
+| \`dummy_thing.second\` (id=second-thing) | ✨️ | ✔ | 0s |
 `;
 
 exports[`plan 1`] = `## Tofu Summary ✅
